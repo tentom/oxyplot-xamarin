@@ -2,6 +2,11 @@
 # Build a Xamarin.Android project.
 # Add steps that test, sign, and distribute an app, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/xamarin
+#
+#
+# midified from: https://medium.com/@yanxiaodi/using-azure-devops-build-pipeline-for-xamarin-forms-436ddc6bcf97
+# removed from msBuildArgs /p:UapAppxPackageBuildMode=StoreUpload'
+#
 
 trigger:
 - master
@@ -40,3 +45,23 @@ jobs:
       configuration: '$(buildConfiguration)'
       buildForSimulator: true
       packageApp: false
+
+- job: WUP
+  pool:
+    vmImage: 'vs2017-win2016'
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'x86|x64|ARM'
+    buildConfiguration: 'Release'
+    appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\'
+  steps:
+  - task: NuGetToolInstaller@0
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
+  - task: VSBuild@1
+    inputs:
+      platform: 'x86'
+      solution: '$(solution)'
+      configuration: '$(buildConfiguration)'
+      msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always 
