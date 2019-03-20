@@ -48,7 +48,7 @@ jobs:
 
 - job: WUP
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-2019'
   variables:
     solution: '**/*.sln'
     buildPlatform: 'x86|x64|ARM'
