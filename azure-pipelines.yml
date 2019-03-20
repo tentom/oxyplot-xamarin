@@ -12,6 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+  iOSOutputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)/iOS'
 
 steps:
 - task: NuGetToolInstaller@0
@@ -24,4 +25,10 @@ steps:
   inputs:
     projectFile: '**/*droid*.csproj'
     outputDirectory: '$(outputDirectory)'
+    configuration: '$(buildConfiguration)'
+
+- task: XamariniOS@1
+  inputs:
+    projectFile: '**/*iOS*.csproj'
+    ouputDirectory: '$(iOSOutputDirectory)'
     configuration: '$(buildConfiguration)'
