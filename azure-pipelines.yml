@@ -51,7 +51,9 @@ jobs:
     vmImage: 'macos-10.13'
   variables:
     buildConfiguration: 'Release'
+    solution: '**/Mac.sln'
     outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+    buildPlatform: 'x86|x64|ARM'
   steps:
     - task: NuGetToolInstaller@0
     - bash: |
@@ -59,8 +61,11 @@ jobs:
        sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_4_1 
       displayName: 'Select Xamarin SDK version'
       enabled: true
-
-      
+    - task: VSBuild@1
+      inputs:
+        platform: $(buildPlatform)
+        solution: $(solution)
+        configuration: 
 
 - job: WUP
   pool:
