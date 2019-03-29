@@ -46,6 +46,22 @@ jobs:
       buildForSimulator: true
       packageApp: false
 
+- job: mac
+  pool:
+    vmImage: 'macos-10.13'
+  variables:
+    buildConfiguration: 'Release'
+    outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+  steps:
+    - task: NuGetToolInstaller@0
+    - bash: |
+       # building xamarin.Mac via bash sinc there are noe tasks for it
+       sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_4_1 
+      displayName: 'Select Xamarin SDK version'
+      enabled: true
+
+      
+
 - job: WUP
   pool:
     vmImage: 'windows-2019'
