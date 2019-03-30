@@ -50,7 +50,6 @@ jobs:
   pool:
     vmImage: 'macos-10.13'
   variables:
-    buildConfiguration: 'Release'
     solution: '**/Mac.sln'
     outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
     buildPlatform: 'AnyCPU'
